@@ -118,6 +118,19 @@ class TagPrinter {
 		}
 
 		/**
+		 * Array Dim Fetch.
+		 *
+		 * For example: `$action['bc-action']`.
+		 *
+		 * @link https://github.com/nikic/PHP-Parser/blob/v4.10.4/lib/PhpParser/Node/Expr/ArrayDimFetch.php
+		 */
+		if ( $expr instanceof \PhpParser\Node\Expr\ArrayDimFetch ) {
+			$varName = $this->print( $expr->var ); // Print the array variable.
+			$dim = $this->print( $expr->dim );     // Print the array index/key.
+			return $varName . '[' . $dim . ']';     // Combine them into a string.
+		}
+
+		/**
 		 * Unsupported expression.
 		 *
 		 * @link https://github.com/nikic/PHP-Parser/blob/master/doc/component/Pretty_printing.markdown
