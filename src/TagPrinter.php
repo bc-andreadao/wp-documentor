@@ -11,7 +11,7 @@
 namespace Pronamic\WordPress\Documentor;
 
 use \PhpParser\Node\Expr;
-use PhpParser\Node\Name;
+use \PhpParser\Node\Name;
 
 /**
  * Tag Printer
