@@ -131,6 +131,19 @@ class TagPrinter {
 		}
 
 		/**
+		 * Class Constant Fetch.
+		 *
+		 * For example: `Webhook_Cron_Tasks::UPDATE_PRODUCT`.
+		 *
+		 * @link https://github.com/nikic/PHP-Parser/blob/master/lib/PhpParser/Node/Expr/ClassConstFetch.php
+		 */
+		if ( $expr instanceof \PhpParser\Node\Expr\ClassConstFetch ) {
+			$className = $this->print( $expr->class ); // Print the class name.
+			$constantName = $this->print( $expr->name ); // Print the constant name.
+			return $className . '::' . $constantName; // Combine into class::constant format.
+		}
+
+		/**
 		 * Unsupported expression.
 		 *
 		 * @link https://github.com/nikic/PHP-Parser/blob/master/doc/component/Pretty_printing.markdown
