@@ -10,6 +10,7 @@
 
 namespace Pronamic\WordPress\Documentor;
 
+use \PhpParser\Node;
 use \PhpParser\Node\Expr;
 use \PhpParser\Node\Name;
 
@@ -28,7 +29,7 @@ class TagPrinter {
 	 * @param Expr $expr PHP Parser epxression.
 	 * @return string
 	 */
-	public function print( Expr $expr ) {
+	public function print( Node $expr ) {
 
         /**
          * Handle Name nodes (e.g., class names, namespaces).
