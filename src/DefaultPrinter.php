@@ -33,16 +33,27 @@ class DefaultPrinter {
 		$this->output     = $output;
 
 		$this->table = new Table( $output );
-
-		$this->table->setHeaders( array( 'File', 'Tag' ) );
+		$this->table->setHeaders( array( 'File', 'Tag', 'Summary' ) );
 
 		foreach ( $documentor->get_hooks() as $hook ) {
-			$this->table->addRow(
-				array(
-					$hook->get_file()->getPathname(),
-					$hook->get_tag()->get_name(),
-				)
-			);
+			$filePath = $hook->get_file()->getPathname();
+			$tagName = $hook->get_tag()->get_name();
+			$summary = $hook->get_summary();
+
+			$echoedLine = "File: $filePath, Tag: $tagName, Summary: $summary";
+
+			foreach ( $hook->get_arguments() as $argument ) {
+				$argumentName = $argument->get_name();
+				$argumentType = $argument->get_type();
+				$argumentDescription = $argument->get_description();
+
+				$echoedLine .= ", Argument: $argumentName $argumentType $argumentDescription";
+			}
+		
+			echo $echoedLine . PHP_EOL;
+		
+			$this->table->addRow( array( $filePath, $tagName, $summary ) );
+			
 		}
 	}
 
