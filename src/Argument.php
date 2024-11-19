@@ -61,9 +61,15 @@ class Argument {
 	 * @return string
 	 */
 	public function get_name() {
-		$pretty_printer = new \PhpParser\PrettyPrinter\Standard();
+		if ( null === $this->param_tag ) {
+			return null;
+		}
 
-		return $pretty_printer->prettyPrint( array( $this->arg ) );
+		return \strval( $this->param_tag->getVariableName() );
+
+		// $pretty_printer = new \PhpParser\PrettyPrinter\Standard();
+
+		// return $pretty_printer->prettyPrint( array( $this->arg ) );
 	}
 
 	/**
