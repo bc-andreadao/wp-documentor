@@ -210,9 +210,9 @@ class Hook {
 		return \in_array(
 			\strval( $this->call->name ),
 			array(
-				'apply_filters',
-				'apply_filters_ref_array',
-				'apply_filters_deprecated',
+				'add_filter',
+				'add_filter_ref_array',
+				'add_filter_deprecated',
 			),
 			true
 		);
@@ -227,9 +227,9 @@ class Hook {
 		return \in_array(
 			\strval( $this->call->name ),
 			array(
-				'do_action',
-				'do_action_ref_array',
-				'do_action_deprecated',
+				'add_action',
+				'add_action_ref_array',
+				'add_action_deprecated',
 			),
 			true
 		);
@@ -244,8 +244,8 @@ class Hook {
 		return \in_array(
 			\strval( $this->call->name ),
 			array(
-				'do_action_deprecated',
-				'apply_filters_deprecated',
+				'add_action_deprecated',
+				'add_filter_deprecated',
 			),
 			true
 		);
