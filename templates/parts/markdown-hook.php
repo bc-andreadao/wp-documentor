@@ -25,23 +25,23 @@ if ( ! empty( $description ) ) {
 	echo $eol;
 }
 
-$arguments = $hook->get_arguments();
+$param_tags = $hook->get_doc_block()->getTagsByName( 'param' ); 
 
-if ( \count( $arguments ) > 0 ) {
-	echo '**Arguments**', $eol;
+echo '**Arguments**', $eol;
 
+if ( \count( $param_tags ) > 0 ) {
 	echo $eol;
 
 	echo 'Argument | Type | Description', $eol;
 	echo '-------- | ---- | -----------', $eol;
 
-	foreach ( $arguments as $argument ) {
-		$type        = $argument->get_type();
-		$description = $argument->get_description();
+	foreach ( $param_tags as $param_tag ) {
+		$type        = $param_tag->getType();
+		$description = $param_tag->getDescription();
 
 		\printf(
 			'%s | %s | %s',
-			\sprintf( '`%s`', $argument->get_name() ),
+			\sprintf( '`%s`', $param_tag->getVariableName() ),
 			empty( $type ) ? '' : \sprintf( '`%s`', \addcslashes( $type, '|' ) ),
 			strtr(
 				( null === $description ) ? '' : \addcslashes( $description, '|' ),
@@ -55,6 +55,9 @@ if ( \count( $arguments ) > 0 ) {
 
 		echo $eol;
 	}
+} else {
+	echo PHP_EOL . 'No arguments.' . PHP_EOL;
+
 }
 
 echo $eol;
