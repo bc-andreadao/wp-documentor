@@ -14,7 +14,7 @@ echo $eol;
 $summary = $hook->get_summary();
 
 if ( ! empty( $summary ) ) {
-	echo '*', $summary, '*', $eol;
+	echo $summary, $eol;
 	echo $eol;
 }
 
