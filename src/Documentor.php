@@ -316,45 +316,36 @@ class Documentor {
 			if ( null !== $doc_block ) {
 				$hook->set_changelog( $changelog_factory->create( $doc_block ) );
 
-				$param_tags = $doc_block->getTagsByName( 'param' ); 
-
-				\reset( $param_tags );
-
 				foreach ( $hook->get_arguments() as $argument ) {
-					// $arg = $argument->get_php_parser_argument();
+					$arg = $argument->get_php_parser_argument();
 
-					// $param_tags = \array_filter(
-					// 	$doc_block->getTagsByName( 'param' ),
-					// 	function( $tag ) use ( $arg ) {
-					// 		/**
-					// 		 * Documentor can only match named expression to a tag, currently no support for:
-					// 		 *
-					// 		 * ```php
-					// 		 * do_action_ref_array( $hook, $v['args'] );
-					// 		 * ```
-					// 		 *
-					// 		 * @link https://github.com/WordPress/WordPress/blob/5.7/wp-cron.php#L129-L138
-					// 		 * @link https://github.com/nikic/PHP-Parser/blob/v4.10.4/lib/PhpParser/Node/Expr/ArrayDimFetch.php
-					// 		 * @link https://github.com/nikic/PHP-Parser/blob/v4.10.4/lib/PhpParser/Node/Expr/Variable.php#L9-L10
-					// 		 */
-					// 		if ( ! \property_exists( $arg->value, 'name' ) ) {
-					// 			return false;
-					// 		}
+					$param_tags = \array_filter(
+						$doc_block->getTagsByName( 'param' ),
+						function( $tag ) use ( $arg ) {
+							/**
+							 * Documentor can only match named expression to a tag, currently no support for:
+							 *
+							 * ```php
+							 * do_action_ref_array( $hook, $v['args'] );
+							 * ```
+							 *
+							 * @link https://github.com/WordPress/WordPress/blob/5.7/wp-cron.php#L129-L138
+							 * @link https://github.com/nikic/PHP-Parser/blob/v4.10.4/lib/PhpParser/Node/Expr/ArrayDimFetch.php
+							 * @link https://github.com/nikic/PHP-Parser/blob/v4.10.4/lib/PhpParser/Node/Expr/Variable.php#L9-L10
+							 */
+							if ( ! \property_exists( $arg->value, 'name' ) ) {
+								return false;
+							}
 
-					// 		return $tag->getVariableName() === $arg->value->name;
-					// 	}
-					// );
-
+							return $tag->getVariableName() === $arg->value->name;
+						}
+					);
 					
-					// $param_tag = \reset( $param_tags );
-
-					$param_tag = \current( $param_tags );
+					$param_tag = \reset( $param_tags );
 
 					if ( false !== $param_tag ) {
 						$argument->set_param_tag( $param_tag );
 					}
-
-					\next( $param_tags );
 				}
 			}
 
