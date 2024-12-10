@@ -27,40 +27,43 @@ if ( ! empty( $description ) ) {
 
 $param_tags = $hook->get_doc_block()->getTagsByName( 'param' ); 
 
-echo '**Arguments**', $eol;
+if ( ! empty( $param_tags ) ) {
 
-if ( \count( $param_tags ) > 0 ) {
-	echo $eol;
+	echo '**Arguments**', $eol;
 
-	echo 'Argument | Type | Description', $eol;
-	echo '-------- | ---- | -----------', $eol;
-
-	foreach ( $param_tags as $param_tag ) {
-		$type        = $param_tag->getType();
-		$description = $param_tag->getDescription();
-
-		\printf(
-			'%s | %s | %s',
-			\sprintf( '`%s`', $param_tag->getVariableName() ),
-			empty( $type ) ? '' : \sprintf( '`%s`', \addcslashes( $type, '|' ) ),
-			strtr(
-				( null === $description ) ? '' : \addcslashes( $description, '|' ),
-				array(
-					"\r\n" => '<br>',
-					"\r"   => '<br>',
-					"\n"   => '<br>',
-				)
-			)
-		);
-
+	if ( \count( $param_tags ) > 0 ) {
 		echo $eol;
+
+		echo 'Argument | Type | Description', $eol;
+		echo '-------- | ---- | -----------', $eol;
+
+		foreach ( $param_tags as $param_tag ) {
+			$type        = $param_tag->getType();
+			$description = $param_tag->getDescription();
+
+			\printf(
+				'%s | %s | %s',
+				\sprintf( '`%s`', $param_tag->getVariableName() ),
+				empty( $type ) ? '' : \sprintf( '`%s`', \addcslashes( $type, '|' ) ),
+				strtr(
+					( null === $description ) ? '' : \addcslashes( $description, '|' ),
+					array(
+						"\r\n" => '<br>',
+						"\r"   => '<br>',
+						"\n"   => '<br>',
+					)
+				)
+			);
+
+			echo $eol;
+		}
+	} else {
+		echo PHP_EOL . 'No arguments.' . PHP_EOL;
+
 	}
-} else {
-	echo PHP_EOL . 'No arguments.' . PHP_EOL;
 
+	echo $eol;
 }
-
-echo $eol;
 
 /**
  * Changelog.
