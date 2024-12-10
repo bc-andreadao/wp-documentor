@@ -25,9 +25,13 @@ if ( ! empty( $description ) ) {
 	echo $eol;
 }
 
-if ( ! empty( $hook->get_doc_block() ) ) {
 
-	$param_tags = $hook->get_doc_block()->getTagsByName( 'param' ); 
+
+$doc_block = $hook->get_doc_block();
+
+if ( ! empty( $doc_block ) ) {
+
+	$param_tags = $doc_block->getTagsByName( 'param' ); 
 
 	echo '**Arguments**', $eol;
 
