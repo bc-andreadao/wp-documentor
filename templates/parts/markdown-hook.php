@@ -8,7 +8,6 @@
  * @package   Pronamic\WordPress\Documentor
  */
 
-echo '### `', $hook->get_tag()->get_name(), '`', $eol;
 echo $eol;
 
 $summary = $hook->get_summary();
