@@ -244,12 +244,12 @@ class Documentor {
 				return \in_array(
 					\strval( $node->name ),
 					array(
-						'add_filter',
-						'add_filter_ref_array',
-						'add_filter_deprecated',
-						'add_action',
-						'add_action_ref_array',
-						'add_action_deprecated',
+						'apply_filter',
+						'apply_filter_ref_array',
+						'apply_filter_deprecated',
+						'do_action',
+						'do_action_ref_array',
+						'do_action_deprecated',
 					),
 					true
 				);
