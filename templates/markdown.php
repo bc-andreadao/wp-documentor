@@ -50,13 +50,35 @@ if ( empty( $grouped_actions ) ) {
 } else {
     // Loop through each grouped action
     foreach ( $grouped_actions as $action_name => $hooks ) {
-        // Include the template for this action
         echo "### {$action_name}", $eol;
         echo $eol;
         
-        // Process each hook for this action name
-        foreach ( $hooks as $hook ) {
+        // Find the first hook with a docblock in this group
+        $documented_hook = null;
+        foreach ($hooks as $h) {
+            if ($h->get_doc_block() !== null) {
+                $documented_hook = $h;
+                break;
+            }
+        }
+        
+        // If we found a documented hook, process it first with full documentation
+        if ($documented_hook !== null) {
+            $hook = $documented_hook;
             include __DIR__ . '/parts/markdown-hook.php';
+            include __DIR__ . '/parts/markdown-hook-source.php';
+            
+            // Process remaining hooks with source only
+            foreach ($hooks as $hook) {
+                if ($hook !== $documented_hook) {
+                    include __DIR__ . '/parts/markdown-hook-source.php';
+                }
+            }
+        } else {
+            // No documented hooks found, show sources for all hooks
+            foreach ($hooks as $hook) {
+                include __DIR__ . '/parts/markdown-hook-source.php';
+            }
         }
     }
 }
@@ -70,13 +92,35 @@ if ( empty( $grouped_filters ) ) {
 } else {
     // Loop through each grouped filter
     foreach ( $grouped_filters as $filter_name => $hooks ) {
-        // Include the template for this filter
         echo "### {$filter_name}", $eol;
         echo $eol;
         
-        // Process each hook for this filter name
-        foreach ( $hooks as $hook ) {
+        // Find the first hook with a docblock in this group
+        $documented_hook = null;
+        foreach ($hooks as $h) {
+            if ($h->get_doc_block() !== null) {
+                $documented_hook = $h;
+                break;
+            }
+        }
+        
+        // If we found a documented hook, process it first with full documentation
+        if ($documented_hook !== null) {
+            $hook = $documented_hook;
             include __DIR__ . '/parts/markdown-hook.php';
+            include __DIR__ . '/parts/markdown-hook-source.php';
+            
+            // Process remaining hooks with source only
+            foreach ($hooks as $hook) {
+                if ($hook !== $documented_hook) {
+                    include __DIR__ . '/parts/markdown-hook-source.php';
+                }
+            }
+        } else {
+            // No documented hooks found, show sources for all hooks
+            foreach ($hooks as $hook) {
+                include __DIR__ . '/parts/markdown-hook-source.php';
+            }
         }
     }
 }

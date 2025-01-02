@@ -24,12 +24,9 @@ if ( ! empty( $description ) ) {
 	echo $eol;
 }
 
-
-
 $doc_block = $hook->get_doc_block();
 
 if ( ! empty( $doc_block ) ) {
-
 	$param_tags = $doc_block->getTagsByName( 'param' ); 
 
 	echo '**Arguments**', $eol;
@@ -62,7 +59,6 @@ if ( ! empty( $doc_block ) ) {
 		}
 	} else {
 		echo PHP_EOL . 'No arguments.' . PHP_EOL;
-
 	}
 
 	echo $eol;
@@ -96,25 +92,3 @@ if ( null !== $changelog && \count( $changelog ) > 0 ) {
 
 	echo $eol;
 }
-
-printf(
-	'Source: %s, %s',
-	\sprintf(
-		'[%s](%s)',
-		$hook->get_file()->getPathname(),
-		$documentor->relative( $hook->get_file() )
-	),
-	\sprintf(
-		'[line %s](%s)',
-		$hook->get_start_line(),
-		\sprintf(
-			'%s#L%d-L%d',
-			$documentor->relative( $hook->get_file() ),
-			$hook->get_start_line(),
-			$hook->get_end_line()
-		)
-	)
-);
-
-echo $eol;
-echo $eol;
