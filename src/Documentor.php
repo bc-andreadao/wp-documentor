@@ -149,45 +149,47 @@ class Documentor {
 		$parent = $statement->getAttribute( 'parent' );
 
 		/**
-		 * This handles a assignment before a hook function call:
-		 * 
-		 * ```php
-		 * $some_variable = apply_filters( 'my_plugin_filter_1', $first_param, $second_param );
-		 * ```
-		 * 
-		 * @link https://github.com/pronamic/wp-documentor/issues/11
+		 * Only check parent if it's an assignment, cast, or direct statement
+		 * containing the hook call - not function definitions or other structures
 		 */
-		if ( $parent instanceof \PhpParser\Node\Expr\Assign ) {
-			return $this->get_statement_doc_comment( $parent );
-		}
+		if ( 
+			/**
+			 * This handles a assignment before a hook function call:
+			 * 
+			 * ```php
+			 * $some_variable = apply_filters( 'my_plugin_filter_1', $first_param, $second_param );
+			 * ```
+			 * 
+			 * @link https://github.com/pronamic/wp-documentor/issues/11
+			 */
+			 $parent instanceof \PhpParser\Node\Expr\Assign ||
 
-		/**
-		 * This handles a cast before a hook function call:
-		 * 
-		 * ```php
-		 * $should_do = (bool) apply_filters( 'should_we_do_it', true, $some_value );
-		 * ```
-		 * 
-		 * @link https://github.com/pronamic/wp-documentor/issues/18
-		 */
-		if ( $parent instanceof \PhpParser\Node\Expr\Cast ) {
-			return $this->get_statement_doc_comment( $parent );
-		}
+			/**
+			 * This handles a cast before a hook function call:
+			 * 
+			 * ```php
+			 * $should_do = (bool) apply_filters( 'should_we_do_it', true, $some_value );
+			 * ```
+			 * 
+			 * @link https://github.com/pronamic/wp-documentor/issues/18
+			 */ 
+			 $parent instanceof \PhpParser\Node\Expr\Cast ||
 
-		/**
-		 * This handles a hook function call in a `if` statement (`\PhpParser\Node\Stmt\If_`):
-		 * 
-		 * ```php
-		 * if ( (bool) apply_filters( 'some_condition_filter', $some_condition, $some_other_parameter ) )
-		 * ```
-		 * 
-		 * And also a `return` statement (`PhpParser\Node\Stmt\Return_`):
-		 * 
-		 * ```php
-		 * return apply_filters( 'test_issue_13_file_exclude_2', $first_param, $second_param );
-		 * ```
-		 */
-		if ( $parent instanceof \PhpParser\Node\Stmt ) {
+			/**
+			 * This handles a hook function call in a `if` statement (`\PhpParser\Node\Stmt\If_`):
+			 * 
+			 * ```php
+			 * if ( (bool) apply_filters( 'some_condition_filter', $some_condition, $some_other_parameter ) )
+			 * ```
+			 * 
+			 * And also a `return` statement (`PhpParser\Node\Stmt\Return_`):
+			 * 
+			 * ```php
+			 * return apply_filters( 'test_issue_13_file_exclude_2', $first_param, $second_param );
+			 * ```
+			 */
+			 $parent instanceof \PhpParser\Node\Stmt\If_ ||
+			 $parent instanceof \PhpParser\Node\Stmt\Return_ ) {
 			return $this->get_statement_doc_comment( $parent );
 		}
 
@@ -244,9 +246,9 @@ class Documentor {
 				return \in_array(
 					\strval( $node->name ),
 					array(
-						'apply_filter',
-						'apply_filter_ref_array',
-						'apply_filter_deprecated',
+						'apply_filters',
+						'apply_filters_ref_array',
+						'apply_filters_deprecated',
 						'do_action',
 						'do_action_ref_array',
 						'do_action_deprecated',

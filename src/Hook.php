@@ -210,9 +210,9 @@ class Hook {
 		return \in_array(
 			\strval( $this->call->name ),
 			array(
-				'apply_filter',
-				'apply_filter_ref_array',
-				'apply_filter_deprecated',
+				'apply_filters',
+				'apply_filters_ref_array',
+				'apply_filters_deprecated',
 			),
 			true
 		);
@@ -245,7 +245,7 @@ class Hook {
 			\strval( $this->call->name ),
 			array(
 				'do_action_deprecated',
-				'apply_filter_deprecated',
+				'apply_filters_deprecated',
 			),
 			true
 		);
